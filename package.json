@@ -1,0 +1,9 @@
+{
+  "name": "i-fit-fitness-website",
+  "version": "1.0.0",
+  "description": "I-FIT Fitness Planner and Budget Protein Optimizer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
