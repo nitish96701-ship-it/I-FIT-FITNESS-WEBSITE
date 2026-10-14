@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I_FIT | AI Fitness Planner & Budget Protein Optimizer</title>
+  <meta name="description" content="I_FIT - Personalized fitness workout routines and budget-friendly daily protein optimization for ₹2000, ₹3000, ₹4000, ₹5000 budgets.">
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+
+  <!-- TOP HEADER & NAVBAR -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 4v16M18 4v16M2 9h4M18 9h4M2 15h4M18 15h4M6 12h12" />
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">I_<span class="highlight">FIT</span></span>
+          <span class="logo-tagline">Elite Workouts & Budget Nutrition</span>
+        </div>
+      </div>
+
+      <!-- Quick User Status Pill -->
+      <div class="user-status-bar" id="userStatusBar">
+        <div class="status-badge" id="headerGoalBadge">
+          <span class="status-dot"></span>
+          <span id="headerGoalText">Loading Profile...</span>
+        </div>
+        <button class="btn-profile-edit" id="btnOpenEditProfile" title="Edit your fitness profile & goals">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </svg>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="main-content" id="mainAppContent">
+    
+    <!-- HERO / USER DASHBOARD SUMMARY -->
+    <section class="user-dashboard-hero">
+      <div class="hero-welcome">
+        <div class="greeting-row">
+          <div class="avatar-circle" id="userAvatar">IF</div>
+          <div>
+            <h1 class="welcome-heading">Welcome, <span id="displayUserName" class="gradient-text">Athlete</span>!</h1>
+            <p class="welcome-subtext" id="displayUserGoalDesc">Your customized science-backed daily planner and nutrition roadmap.</p>
+          </div>
+        </div>
+        
+        <div class="hero-action-buttons">
+          <button class="btn-action-outline" id="btnPrintPlan">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print / Save Plan
+          </button>
+          <button class="btn-action-primary" id="btnJumpToBudget">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            Your Budget Section
+          </button>
+        </div>
+      </div>
+
+      <!-- KEY STATS METRICS GRID -->
+      <div class="metrics-grid">
+        <!-- Metric 1: Goal Protein Target -->
+        <div class="metric-card highlight-metric">
+          <div class="metric-icon protein-icon">🥩</div>
+          <div class="metric-details">
+            <span class="metric-label">Daily Protein Goal</span>
+            <div class="metric-value-row">
+              <span class="metric-value" id="statDailyProtein">140</span>
+              <span class="metric-unit">grams/day</span>
+            </div>
+            <span class="metric-hint" id="statProteinRatio">~2.0g per kg bodyweight</span>
+          </div>
+        </div>
+
+        <!-- Metric 2: Target Calories -->
+        <div class="metric-card">
+          <div class="metric-icon calorie-icon">🔥</div>
+          <div class="metric-details">
+            <span class="metric-label">Daily Calorie Target</span>
+            <div class="metric-value-row">
+              <span class="metric-value" id="statDailyCalories">2,250</span>
+              <span class="metric-unit">kcal</span>
+            </div>
+            <span class="metric-hint" id="statCalorieDeficit">Optimized for chosen goal</span>
+          </div>
+        </div>
+
+        <!-- Metric 3: BMI & Category -->
+        <div class="metric-card">
+          <div class="metric-icon bmi-icon">⚖️</div>
+          <div class="metric-details">
+            <span class="metric-label">Body Mass Index (BMI)</span>
+            <div class="metric-value-row">
+              <span class="metric-value" id="statBmiScore">22.4</span>
+              <span class="badge-status" id="statBmiBadge">Healthy</span>
+            </div>
+            <span class="metric-hint" id="statHealthyRange">Healthy: 55 - 72 kg</span>
+          </div>
+        </div>
+
+        <!-- Metric 4: Daily Water -->
+        <div class="metric-card">
+          <div class="metric-icon water-icon">💧</div>
+          <div class="metric-details">
+            <span class="metric-label">Hydration Goal</span>
+            <div class="metric-value-row">
+              <span class="metric-value" id="statDailyWater">3.2</span>
+              <span class="metric-unit">Liters/day</span>
+            </div>
+            <span class="metric-hint" id="statWaterGlasses">~13 glasses (250ml)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="section-nav">
+      <div class="nav-tabs-list">
+        <button class="nav-tab active" data-target="section-planner">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Daily Exercise Planner</span>
+        </button>
+        <button class="nav-tab special-tab" data-target="section-budget" id="tabNavBudget">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+            <line x1="12" y1="6" x2="12" y2="18"></line>
+          </svg>
+          <span class="badge-pulse">HOT</span>
+          <span>Your Budget & Protein</span>
+        </button>
+        <button class="nav-tab" data-target="section-macros">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+          </svg>
+          <span>Macro Split & Health</span>
+        </button>
+        <button class="nav-tab" data-target="section-tracker">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+          <span>Water & Habits</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ============================================================= -->
+    <!-- SECTION 1: DAILY EXERCISE PLANNER -->
+    <!-- ============================================================= -->
+    <section class="app-section active-section" id="section-planner">
+      <div class="section-header-block">
+        <div>
+          <div class="badge-pill" id="plannerGoalPill">🔥 Reduce Fat Protocol</div>
+          <h2 class="section-title">Your Daily Workout Planner</h2>
+          <p class="section-subtitle" id="plannerSubtitle">Tailored exercise split engineered for your primary fitness objective.</p>
+        </div>
+        
+        <!-- Quick Workout Stats -->
+        <div class="workout-quick-stats">
+          <div class="quick-stat">
+            <span class="qs-label">Total Volume</span>
+            <span class="qs-val" id="qsExerciseCount">5 Exercises</span>
+          </div>
+          <div class="quick-stat">
+            <span class="qs-label">Est. Time</span>
+            <span class="qs-val" id="qsDuration">45 mins</span>
+          </div>
+          <div class="quick-stat">
+            <span class="qs-label">Est. Burn</span>
+            <span class="qs-val" id="qsBurn">380 kcal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY SELECTOR STRIP (Day 1 - Day 7) -->
+      <div class="day-selector-container">
+        <div class="day-selector-strip" id="daySelectorStrip">
+          <!-- Dynamic Day Buttons generated by JS -->
+        </div>
+      </div>
+
+      <!-- ACTIVE DAY TITLE & PROGRESS BAR -->
+      <div class="day-overview-card">
+        <div class="day-info-row">
+          <div>
+            <h3 class="active-day-heading" id="activeDayHeading">Day 1: Full Body Blast</h3>
+            <span class="active-day-muscles" id="activeDayMuscles">Target Muscles: Chest, Quads, Lats, Core</span>
+          </div>
+          <div class="day-completion-box">
+            <div class="completion-label">
+              <span>Today's Progress:</span>
+              <strong id="completionPercent">0%</strong>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="workoutProgressBar" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXERCISES LIST CARDS -->
+      <div class="exercise-cards-list" id="exerciseCardsList">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- REST STOPWATCH & COUNTDOWN TIMER DOCK -->
+      <div class="rest-timer-dock" id="restTimerDock">
+        <div class="timer-dock-content">
+          <div class="timer-display-col">
+            <span class="timer-title">REST INTERVAL TIMER</span>
+            <div class="timer-digits" id="timerDigits">01:00</div>
+          </div>
+          
+          <!-- Preset Buttons -->
+          <div class="timer-presets">
+            <button class="btn-preset active" data-seconds="30">30s</button>
+            <button class="btn-preset" data-seconds="60">60s</button>
+            <button class="btn-preset" data-seconds="90">90s</button>
+            <button class="btn-preset" data-seconds="120">120s</button>
+          </div>
+
+          <!-- Controls -->
+          <div class="timer-controls">
+            <button class="btn-timer-primary" id="btnToggleTimer">
+              <svg id="timerPlayIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span id="timerPlayText">Start</span>
+            </button>
+            <button class="btn-timer-secondary" id="btnResetTimer" title="Reset Timer">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 4v6h6M23 20v-6h-6"></path>
+                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- SECTION 2: "YOUR BUDGET" & PROTEIN GOAL OPTIMIZER (CORE FEATURE) -->
+    <!-- ============================================================= -->
+    <section class="app-section" id="section-budget">
+      
+      <!-- HERO BANNER FOR YOUR BUDGET -->
+      <div class="budget-hero-card">
+        <div class="budget-badge-pill">💰 BUDGET OPTIMIZER ENGINE</div>
+        <h2 class="budget-hero-title">Your Budget & Protein Masterplan</h2>
+        <p class="budget-hero-subtext">
+          Hit your daily target of <span class="highlight-yellow" id="budgetHeroTargetProtein">140g protein</span> without burning a hole in your pocket. Choose your monthly budget tier below to see your optimal daily food blueprint and grocery checklist!
+        </p>
+
+        <!-- Dynamic Summary Bar -->
+        <div class="budget-summary-strip">
+          <div class="summary-metric">
+            <span class="sm-label">Your Daily Protein Goal:</span>
+            <span class="sm-value" id="budgetSummaryGoalProtein">140g / day</span>
+          </div>
+          <div class="summary-metric">
+            <span class="sm-label">Selected Budget Tier:</span>
+            <span class="sm-value highlight-cyan" id="budgetSummarySelectedTier">₹3,000 / month</span>
+          </div>
+          <div class="summary-metric">
+            <span class="sm-label">Daily Budget Allowance:</span>
+            <span class="sm-value highlight-green" id="budgetSummaryDailyCost">~₹100 / day</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUDGET SELECTION CONTROLS (2000, 3000, 4000, 5000 + CUSTOM) -->
+      <div class="budget-controls-card">
+        <div class="control-group-header">
+          <div>
+            <h3 class="card-section-heading">1. Select Your Monthly Nutrition Budget:</h3>
+            <p class="card-section-hint">Click any preset option or fine-tune with the custom slider.</p>
+          </div>
+        </div>
+
+        <!-- The Preset Buttons requested by user: 2000, 3000, 4000, 5000 -->
+        <div class="budget-preset-buttons" id="budgetPresetButtons">
+          <button class="budget-btn" data-budget="2000">
+            <span class="budget-tag">Super Saver</span>
+            <span class="budget-amount">₹2,000</span>
+            <span class="budget-daily">~₹67 / day</span>
+          </button>
+          <button class="budget-btn active" data-budget="3000">
+            <span class="budget-tag popular-tag">Most Popular</span>
+            <span class="budget-amount">₹3,000</span>
+            <span class="budget-daily">~₹100 / day</span>
+          </button>
+          <button class="budget-btn" data-budget="4000">
+            <span class="budget-tag">High Value</span>
+            <span class="budget-amount">₹4,000</span>
+            <span class="budget-daily">~₹133 / day</span>
+          </button>
+          <button class="budget-btn" data-budget="5000">
+            <span class="budget-tag pro-tag">Pro Athlete</span>
+            <span class="budget-amount">₹5,000</span>
+            <span class="budget-daily">~₹167 / day</span>
+          </button>
+        </div>
+
+        <!-- Custom Slider Row -->
+        <div class="custom-slider-row">
+          <div class="slider-label-row">
+            <span>Or Choose Custom Budget:</span>
+            <strong class="slider-val" id="customBudgetDisplay">₹3,000 / month</strong>
+          </div>
+          <input type="range" id="customBudgetSlider" min="1500" max="8000" step="250" value="3000" class="budget-range-slider">
+          <div class="slider-range-limits">
+            <span>₹1,500</span>
+            <span>₹4,000</span>
+            <span>₹8,000+</span>
+          </div>
+        </div>
+
+        <!-- DIETARY PREFERENCE SELECTOR -->
+        <div class="dietary-filter-wrapper">
+          <span class="filter-title">2. Dietary Preference:</span>
+          <div class="dietary-chips" id="dietaryChips">
+            <button class="chip-btn active" data-diet="all">All Sources (Best Variety)</button>
+            <button class="chip-btn" data-diet="veg">Pure Vegetarian</button>
+            <button class="chip-btn" data-diet="nonveg">Non-Vegetarian (Chicken & Fish)</button>
+            <button class="chip-btn" data-diet="egg">Eggitarian (Veg + Eggs)</button>
+            <button class="chip-btn" data-diet="vegan">100% Vegan (Plant Only)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY-WISE DIET SELECTOR STRIP & VIEW MODE TOGGLE -->
+      <div class="diet-day-controls-wrapper">
+        <div class="diet-controls-top-row">
+          <div class="diet-section-title-wrap">
+            <h3 class="card-section-heading">3. Day-Wise Diet & Weekly Schedule:</h3>
+            <p class="card-section-hint">Select a day (Monday – Sunday) to view its specific menu, or switch to the 7-Day Matrix for the complete weekly blueprint.</p>
+          </div>
+          
+          <div class="diet-view-mode-actions">
+            <!-- View Mode Switcher -->
+            <div class="view-mode-toggle" id="dietViewModeToggle">
+              <button class="view-mode-btn active" data-mode="single">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>Day Detailed View</span>
+              </button>
+              <button class="view-mode-btn" data-mode="weekly">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6"></line>
+                  <line x1="8" y1="12" x2="21" y2="12"></line>
+                  <line x1="8" y1="18" x2="21" y2="18"></line>
+                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+                <span>7-Day Weekly Matrix</span>
+              </button>
+            </div>
+
+            <!-- Sync with Today's Workout -->
+            <button class="btn-sync-workout" id="btnSyncDietWithWorkout" title="Sync diet day with active workout planner day">
+              🔄 Sync with Workout
+            </button>
+          </div>
+        </div>
+
+        <!-- 7-Day Buttons Strip -->
+        <div class="diet-day-strip" id="dietDayStrip">
+          <!-- Populated dynamically by JS: Day 1 (Mon) - Day 7 (Sun) -->
+        </div>
+      </div>
+
+      <!-- DAILY / WEEKLY BLUEPRINT SCHEDULE CONTAINER -->
+      <div class="budget-blueprint-container">
+        
+        <!-- SINGLE DAY VIEW (ACTIVE BY DEFAULT) -->
+        <div class="single-day-diet-view" id="singleDayDietView">
+          <div class="blueprint-header-card">
+            <div class="blueprint-header-text">
+              <div class="badge-pill tier-pill" id="blueprintTierPill">₹3,000 / mo Blueprint</div>
+              <h3 class="blueprint-title" id="blueprintTitle">Smart Muscle Builder Daily Diet Plan</h3>
+              <p class="blueprint-tagline" id="blueprintTagline">Balanced animal and plant proteins with high bioavailability.</p>
+              
+              <div class="blueprint-actions-row">
+                <button class="btn-auto-scale" id="btnAutoScaleProtein" title="Automatically scales portions to meet 100% of your daily protein target">
+                  ⚡ Auto-Scale to 100% Protein Goal
+                </button>
+                <button class="btn-reset-blueprint" id="btnResetBlueprint" title="Reset portions to default blueprint">
+                  ↺ Default Portions
+                </button>
+              </div>
+            </div>
+
+            <!-- Live Protein & Budget Fulfillment Meters -->
+            <div class="fulfillment-meters">
+              <!-- Protein Met Meter -->
+              <div class="meter-box">
+                <div class="meter-text-row">
+                  <span>Daily Protein:</span>
+                  <strong id="blueprintProteinAchieved">138g / 140g</strong>
+                </div>
+                <div class="meter-bar-bg">
+                  <div class="meter-bar-fill protein-bar" id="blueprintProteinFill" style="width: 98%;"></div>
+                </div>
+                <span class="meter-subtext" id="blueprintProteinPercentage">98% of daily requirement</span>
+              </div>
+
+              <!-- Budget Met Meter -->
+              <div class="meter-box">
+                <div class="meter-text-row">
+                  <span>Daily Cost:</span>
+                  <strong id="blueprintCostAchieved">₹94 / ₹100</strong>
+                </div>
+                <div class="meter-bar-bg">
+                  <div class="meter-bar-fill cost-bar" id="blueprintCostFill" style="width: 94%;"></div>
+                </div>
+                <span class="meter-subtext" id="blueprintCostMonthly">Est. ₹2,820 / mo (Under Budget!)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- THE DAILY MEAL SCHEDULE TABLE / CARDS -->
+          <div class="blueprint-schedule-grid" id="blueprintScheduleGrid">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- 7-DAY WEEKLY MASTER MATRIX VIEW (HIDDEN BY DEFAULT) -->
+        <div class="weekly-diet-matrix-view" id="weeklyDietMatrixContainer" style="display: none;">
+          <div class="weekly-matrix-header">
+            <div>
+              <div class="badge-pill" style="background: rgba(0, 229, 255, 0.12); color: var(--cyan); border-color: rgba(0, 229, 255, 0.3);">
+                🗓️ COMPLETE 7-DAY NUTRITION MATRIX
+              </div>
+              <h3 class="blueprint-title" id="weeklyMatrixTitle">Full Week Meal Schedule</h3>
+              <p class="blueprint-tagline">Complete day-by-day meal plan for all 7 days with protein totals and grocery budget alignment.</p>
+            </div>
+            
+            <div class="weekly-matrix-actions">
+              <button class="btn-action-outline" id="btnPrintWeeklyDiet">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Print 7-Day Diet Chart
+              </button>
+            </div>
+          </div>
+
+          <!-- 7-Day Columns / Rows Grid -->
+          <div class="weekly-matrix-grid" id="weeklyMatrixGrid">
+            <!-- Populated dynamically with Day 1 - Day 7 columns -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ALL PROTEIN SOURCES COMPARISON DIRECTORY -->
+      <div class="sources-directory-container">
+        <div class="sources-header">
+          <div>
+            <h3 class="card-section-heading">Explore High-Protein Food Sources</h3>
+            <p class="card-section-hint">Ranked by cost efficiency and nutritional density based on current market rates in India.</p>
+          </div>
+          <div class="sources-sort-toggle">
+            <span class="sort-label">Sort By:</span>
+            <select id="sourcesSortSelect" class="styled-select">
+              <option value="efficiency">Highest Cost Efficiency (Best Value)</option>
+              <option value="protein">Total Protein / 100g</option>
+              <option value="calories">Lowest Calories (Leanest)</option>
+              <option value="cost">Lowest Cost</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid of Protein Food Cards -->
+        <div class="protein-food-grid" id="proteinFoodGrid">
+          <!-- Dynamically populated from FITNESS_DATA.proteinSources -->
+        </div>
+      </div>
+
+      <!-- MONTHLY GROCERY CHECKLIST -->
+      <div class="grocery-checklist-card" id="groceryChecklistCard">
+        <div class="checklist-header">
+          <div class="checklist-icon">🛒</div>
+          <div>
+            <h3 class="checklist-title">Smart Monthly Grocery Shopping List</h3>
+            <p class="checklist-subtitle">Buy in bulk at the start of the month to hit your protein targets and lock in savings.</p>
+          </div>
+        </div>
+        <div class="grocery-table-container">
+          <table class="grocery-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Est. Monthly Quantity</th>
+                <th>Total Protein Provided</th>
+                <th>Estimated Cost</th>
+              </tr>
+            </thead>
+            <tbody id="groceryTableBody">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- SECTION 3: MACROS & HEALTH CALCULATOR DEEP DIVE -->
+    <!-- ============================================================= -->
+    <section class="app-section" id="section-macros">
+      <div class="section-header-block">
+        <div>
+          <h2 class="section-title">Macro Distribution & Caloric Science</h2>
+          <p class="section-subtitle">How your daily nutrition is calibrated to achieve your goal.</p>
+        </div>
+      </div>
+
+      <div class="macros-breakdown-grid">
+        <!-- Macro Donut / Card 1: Protein -->
+        <div class="macro-stat-card protein-accent">
+          <div class="macro-header-row">
+            <span class="macro-title">PROTEIN</span>
+            <span class="macro-percent" id="macroProteinPct">30%</span>
+          </div>
+          <div class="macro-amount-display">
+            <span class="macro-num" id="macroProteinGrams">140</span>
+            <span class="macro-unit">grams</span>
+          </div>
+          <div class="macro-calories" id="macroProteinKcal">560 kcal</div>
+          <p class="macro-desc">Vital for muscle protein synthesis, tissue repair, and metabolic thermogenesis.</p>
+        </div>
+
+        <!-- Macro Donut / Card 2: Carbohydrates -->
+        <div class="macro-stat-card carbs-accent">
+          <div class="macro-header-row">
+            <span class="macro-title">CARBOHYDRATES</span>
+            <span class="macro-percent" id="macroCarbsPct">45%</span>
+          </div>
+          <div class="macro-amount-display">
+            <span class="macro-num" id="macroCarbsGrams">250</span>
+            <span class="macro-unit">grams</span>
+          </div>
+          <div class="macro-calories" id="macroCarbsKcal">1,000 kcal</div>
+          <p class="macro-desc">Fuels high-intensity lifts, replenishes muscle glycogen, and supports recovery.</p>
+        </div>
+
+        <!-- Macro Donut / Card 3: Healthy Fats -->
+        <div class="macro-stat-card fats-accent">
+          <div class="macro-header-row">
+            <span class="macro-title">HEALTHY FATS</span>
+            <span class="macro-percent" id="macroFatsPct">25%</span>
+          </div>
+          <div class="macro-amount-display">
+            <span class="macro-num" id="macroFatsGrams">62</span>
+            <span class="macro-unit">grams</span>
+          </div>
+          <div class="macro-calories" id="macroFatsKcal">558 kcal</div>
+          <p class="macro-desc">Crucial for testosterone, joint lubrication, and absorption of fat-soluble vitamins.</p>
+        </div>
+      </div>
+
+      <!-- METABOLIC BREAKDOWN CARD -->
+      <div class="metabolic-info-card">
+        <h3 class="metabolic-heading">Metabolic Formula Breakdown (Mifflin-St Jeor)</h3>
+        <div class="metabolic-columns">
+          <div class="meta-col">
+            <span class="meta-col-label">Basal Metabolic Rate (BMR)</span>
+            <span class="meta-col-val" id="metaBMR">1,650 kcal</span>
+            <p class="meta-col-hint">Calories your body burns purely staying alive in complete rest.</p>
+          </div>
+          <div class="meta-col">
+            <span class="meta-col-label">Total Daily Energy Expenditure (TDEE)</span>
+            <span class="meta-col-val" id="metaTDEE">2,450 kcal</span>
+            <p class="meta-col-hint">Calories burned including daily movement and exercise sessions.</p>
+          </div>
+          <div class="meta-col">
+            <span class="meta-col-label">Goal Calorie Target</span>
+            <span class="meta-col-val highlight-green" id="metaGoalCalories">2,150 kcal</span>
+            <p class="meta-col-hint" id="metaCalorieAdvice">Caloric deficit programmed for fat loss.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- SECTION 4: WATER & DAILY HABITS TRACKER -->
+    <!-- ============================================================= -->
+    <section class="app-section" id="section-tracker">
+      <div class="section-header-block">
+        <div>
+          <h2 class="section-title">Hydration & Daily Habit Checklist</h2>
+          <p class="section-subtitle">Consistent execution of foundational habits compounds into extraordinary results.</p>
+        </div>
+      </div>
+
+      <div class="tracker-layout-grid">
+        <!-- Water Intake Tracker -->
+        <div class="tracker-card water-tracker-card">
+          <div class="card-header-icon-title">
+            <span class="card-icon">💧</span>
+            <div>
+              <h3 class="tracker-title">Daily Hydration Log</h3>
+              <p class="tracker-sub" id="waterTargetDisplay">Daily Goal: 3.2 Liters (~13 glasses)</p>
+            </div>
+          </div>
+
+          <div class="water-progress-circle-wrap">
+            <div class="water-amount-large">
+              <span id="currentWaterLiters">0.0</span>
+              <span class="water-unit-label">/ <span id="totalWaterTargetLiters">3.2</span> L</span>
+            </div>
+            <span class="water-glass-count" id="glassesLoggedText">0 of 13 glasses consumed</span>
+          </div>
+
+          <!-- Interactive Glasses Grid -->
+          <div class="glasses-interactive-grid" id="glassesInteractiveGrid">
+            <!-- 12-16 glasses buttons generated by JS -->
+          </div>
+
+          <div class="water-actions">
+            <button class="btn-water-add" id="btnAddGlass">+ Add 1 Glass (250ml)</button>
+            <button class="btn-water-reset" id="btnResetWater">Reset</button>
+          </div>
+        </div>
+
+        <!-- Daily Habits Checklist -->
+        <div class="tracker-card habits-card">
+          <div class="card-header-icon-title">
+            <span class="card-icon">🎯</span>
+            <div>
+              <h3 class="tracker-title">Today's Discipline Checklist</h3>
+              <p class="tracker-sub">Check off each win as you conquer your day.</p>
+            </div>
+          </div>
+
+          <div class="habits-checklist" id="habitsChecklist">
+            <label class="habit-item">
+              <input type="checkbox" id="habitWorkout">
+              <span class="custom-check"></span>
+              <div class="habit-text">
+                <strong>Completed Today's Exercise Routine</strong>
+                <span>Hit target sets, reps, and logged rest intervals</span>
+              </div>
+            </label>
+
+            <label class="habit-item">
+              <input type="checkbox" id="habitProtein">
+              <span class="custom-check"></span>
+              <div class="habit-text">
+                <strong>Hit Daily Protein Goal (<span id="habitProteinGramsText">140g</span>)</strong>
+                <span>Followed budget grocery sources across 3-4 meals</span>
+              </div>
+            </label>
+
+            <label class="habit-item">
+              <input type="checkbox" id="habitWater">
+              <span class="custom-check"></span>
+              <div class="habit-text">
+                <strong>Stayed Fully Hydrated</strong>
+                <span>Drank required daily water volume</span>
+              </div>
+            </label>
+
+            <label class="habit-item">
+              <input type="checkbox" id="habitSleep">
+              <span class="custom-check"></span>
+              <div class="habit-text">
+                <strong>7.5 - 8 Hours Quality Sleep</strong>
+                <span>Primary hormone production and muscle repair window</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="discipline-score-box">
+            <span>Daily Discipline Score:</span>
+            <strong id="disciplineScoreText">0 / 4 Completed</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================= -->
+  <!-- VISITOR INTAKE ONBOARDING MODAL / WIZARD (FIRST VISIT) -->
+  <!-- ============================================================= -->
+  <div class="modal-overlay" id="onboardingModalOverlay">
+    <div class="onboarding-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalStepHeading">
+      
+      <!-- Modal Progress Bar -->
+      <div class="wizard-header">
+        <div class="wizard-brand">
+          <div class="logo-icon mini-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M6 4v16M18 4v16M2 9h4M18 9h4M2 15h4M18 15h4M6 12h12" />
+            </svg>
+          </div>
+          <span>I_FIT Setup Wizard</span>
+        </div>
+        <div class="step-indicator" id="wizardStepIndicator">Step 1 of 4</div>
+      </div>
+
+      <div class="wizard-progress-track">
+        <div class="wizard-progress-bar" id="wizardProgressFill" style="width: 25%;"></div>
+      </div>
+
+      <!-- WIZARD FORM CONTENT -->
+      <form id="onboardingForm" novalidate>
+        
+        <!-- STEP 1: NAME, AGE, BIOLOGICAL SEX -->
+        <div class="wizard-step active-step" data-step="1">
+          <h2 class="step-heading" id="modalStepHeading">Tell Us About Yourself</h2>
+          <p class="step-description">We calculate your exact energy requirements and workout intensity based on your biology.</p>
+
+          <div class="form-group">
+            <label for="inputName" class="form-label">What is your Full Name? <span class="req">*</span></label>
+            <div class="input-icon-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input type="text" id="inputName" class="form-input" placeholder="e.g. Nitish Sharma" required autofocus>
+            </div>
+            <span class="field-error" id="errorName">Please enter your name</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-half">
+              <label for="inputAge" class="form-label">Your Age (years) <span class="req">*</span></label>
+              <input type="number" id="inputAge" class="form-input" min="14" max="85" placeholder="e.g. 24" required>
+              <span class="field-error" id="errorAge">Enter a valid age (14 - 85)</span>
+            </div>
+
+            <div class="form-group col-half">
+              <label class="form-label">Biological Sex <span class="req">*</span></label>
+              <div class="radio-pill-group">
+                <label class="radio-pill">
+                  <input type="radio" name="gender" value="male" checked>
+                  <span>Male</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="gender" value="female">
+                  <span>Female</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: WEIGHT, HEIGHT & ACTIVITY LEVEL -->
+        <div class="wizard-step" data-step="2">
+          <h2 class="step-heading">Your Body Metrics</h2>
+          <p class="step-description">Accurate weight and height ensure optimal BMR, BMI, and daily protein targets.</p>
+
+          <div class="form-row">
+            <div class="form-group col-half">
+              <label for="inputWeight" class="form-label">Weight (in kg) <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <span class="input-unit-icon">kg</span>
+                <input type="number" id="inputWeight" class="form-input" min="30" max="220" step="0.5" placeholder="e.g. 70" required>
+              </div>
+              <span class="field-error" id="errorWeight">Enter a valid weight (30 - 220 kg)</span>
+            </div>
+
+            <div class="form-group col-half">
+              <label for="inputHeight" class="form-label">Height (in cm) <span class="req">*</span></label>
+              <div class="input-icon-wrap">
+                <span class="input-unit-icon">cm</span>
+                <input type="number" id="inputHeight" class="form-input" min="120" max="230" placeholder="e.g. 175" required>
+              </div>
+              <span class="field-error" id="errorHeight">Enter a valid height (120 - 230 cm)</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="selectActivity" class="form-label">Daily Activity Level</label>
+            <select id="selectActivity" class="form-select">
+              <option value="sedentary">Desk Job / Little or No Exercise</option>
+              <option value="light">Lightly Active (Workout 1-2 days/week)</option>
+              <option value="moderate" selected>Moderately Active (Workout 3-5 days/week)</option>
+              <option value="heavy">Very Active (Heavy training 6-7 days/week)</option>
+              <option value="athlete">Athlete / Intense Physical Labor</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 3: FITNESS GOALS (PRIMARY SELECTION) -->
+        <div class="wizard-step" data-step="3">
+          <h2 class="step-heading">What is Your Primary Fitness Goal?</h2>
+          <p class="step-description">Why did you visit our website today? Choose your destination:</p>
+
+          <div class="goal-selection-grid">
+            <!-- Goal 1: Reduce Fat -->
+            <label class="goal-card-option">
+              <input type="radio" name="fitnessGoal" value="reduce_fat" checked>
+              <div class="goal-card-inner">
+                <span class="goal-emoji">🔥</span>
+                <div class="goal-info">
+                  <strong class="goal-title">Reduce Fat & Weight Loss</strong>
+                  <span class="goal-desc">Burn stubborn body fat, speed up metabolism, maintain lean tone.</span>
+                </div>
+                <div class="goal-check-indicator">✓</div>
+              </div>
+            </label>
+
+            <!-- Goal 2: Gain Muscle -->
+            <label class="goal-card-option">
+              <input type="radio" name="fitnessGoal" value="gain_muscle">
+              <div class="goal-card-inner">
+                <span class="goal-emoji">💪</span>
+                <div class="goal-info">
+                  <strong class="goal-title">Gain Muscle / Hypertrophy</strong>
+                  <span class="goal-desc">Build lean muscle mass, sculpt aesthetics, increase power.</span>
+                </div>
+                <div class="goal-check-indicator">✓</div>
+              </div>
+            </label>
+
+            <!-- Goal 3: Gain Weight / Fat (Bulking) -->
+            <label class="goal-card-option">
+              <input type="radio" name="fitnessGoal" value="gain_fat">
+              <div class="goal-card-inner">
+                <span class="goal-emoji">🏋️‍♂️</span>
+                <div class="goal-info">
+                  <strong class="goal-title">Gain Weight / Mass Bulking</strong>
+                  <span class="goal-desc">Hardgainer bulk, caloric surplus, heavy compound strength lifts.</span>
+                </div>
+                <div class="goal-check-indicator">✓</div>
+              </div>
+            </label>
+
+            <!-- Goal 4: Make Abs -->
+            <label class="goal-card-option">
+              <input type="radio" name="fitnessGoal" value="make_abs">
+              <div class="goal-card-inner">
+                <span class="goal-emoji">⚡</span>
+                <div class="goal-info">
+                  <strong class="goal-title">Build Six-Pack Abs & Core</strong>
+                  <span class="goal-desc">Carve chiseled abdominal definition, tighten waist, trim lower belly.</span>
+                </div>
+                <div class="goal-check-indicator">✓</div>
+              </div>
+            </label>
+
+            <!-- Goal 5: Athletic Endurance -->
+            <label class="goal-card-option">
+              <input type="radio" name="fitnessGoal" value="endurance">
+              <div class="goal-card-inner">
+                <span class="goal-emoji">🏃‍♂️</span>
+                <div class="goal-info">
+                  <strong class="goal-title">Athletic Stamina & Endurance</strong>
+                  <span class="goal-desc">Boost lung capacity, VO2 max, hybrid athletic agility & speed.</span>
+                </div>
+                <div class="goal-check-indicator">✓</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 4: EXPERIENCE & BUDGET PREFERENCE -->
+        <div class="wizard-step" data-step="4">
+          <h2 class="step-heading">Training Setup & Starting Budget</h2>
+          <p class="step-description">Final step! Let's tailor the equipment and initial budget preference.</p>
+
+          <div class="form-group">
+            <label class="form-label">Workout Environment</label>
+            <div class="radio-pill-group wide-pill-group">
+              <label class="radio-pill">
+                <input type="radio" name="equipment" value="gym" checked>
+                <span>🏋️‍♂️ Gym (Weights & Machines)</span>
+              </label>
+              <label class="radio-pill">
+                <input type="radio" name="equipment" value="home">
+                <span>🏠 Home Workout (Dumbbells/Bodyweight)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Initial Nutrition Monthly Budget Target</label>
+            <div class="wizard-budget-chips">
+              <label class="budget-radio-pill">
+                <input type="radio" name="initialBudget" value="2000">
+                <span>₹2,000 / mo</span>
+              </label>
+              <label class="budget-radio-pill">
+                <input type="radio" name="initialBudget" value="3000" checked>
+                <span>₹3,000 / mo</span>
+              </label>
+              <label class="budget-radio-pill">
+                <input type="radio" name="initialBudget" value="4000">
+                <span>₹4,000 / mo</span>
+              </label>
+              <label class="budget-radio-pill">
+                <input type="radio" name="initialBudget" value="5000">
+                <span>₹5,000 / mo</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="summary-preview-card" id="wizardSummaryPreview">
+            <div class="preview-text">
+              ✨ <strong>Instant Calculation:</strong> Once you submit, your customized Daily Workout Planner and Budget Protein Blueprint will be generated instantly!
+            </div>
+          </div>
+        </div>
+
+        <!-- WIZARD BUTTONS NAVIGATION -->
+        <div class="wizard-footer-buttons">
+          <button type="button" class="btn-wizard-back" id="btnWizardBack" style="display: none;">
+            ← Back
+          </button>
+          <button type="button" class="btn-wizard-next" id="btnWizardNext">
+            Continue →
+          </button>
+          <button type="submit" class="btn-wizard-submit" id="btnWizardSubmit" style="display: none;">
+            Generate My Plan 🚀
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">I_<span class="highlight">FIT</span></span>
+        <p>Personalized workout engineering and budget-optimized daily nutrition.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#section-planner">Daily Planner</a>
+        <a href="#section-budget">Your Budget</a>
+        <a href="#section-macros">Macros</a>
+        <a href="#section-tracker">Habit Tracker</a>
+      </div>
+      <div class="footer-copy">
+        © 2026 I_FIT. Science-grounded fitness for every athlete.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
